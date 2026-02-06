@@ -14,6 +14,7 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
     .card {
@@ -24,6 +25,7 @@
       width: 90%;
       max-width: 420px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      z-index: 2;
     }
 
     h1 {
@@ -59,11 +61,19 @@
       transform: translateX(-50%);
     }
 
-    img {
-      max-width: 100%;
-      border-radius: 20px;
-      margin-top: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall 3s linear infinite;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+      }
     }
   </style>
 </head>
@@ -91,25 +101,29 @@
     noBtn.addEventListener("touchstart", moveButton);
 
     document.getElementById("yes").onclick = () => {
-      document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          background:#ffb6c1;
-          font-family:Arial;
-          text-align:center;
-          padding:20px;
-        ">
-          <div>
-            <h1>OUIIIII 💕🥰</h1>
-            <p>Je savais que tu dirais oui 😘</p>
-            <img src="nous.jpg" alt="Nous deux ❤️">
-          </div>
-        </div>
+      document.getElementById("card").innerHTML = `
+        <h1>OUIIIII 💕🥰</h1>
+        <p>Je savais que tu dirais oui 😘</p>
       `;
+      launchConfetti();
     };
+
+    function launchConfetti() {
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+          ["#ff4d6d", "#ffd166", "#06d6a0", "#118ab2", "#ef476f"]
+          [Math.floor(Math.random() * 5)];
+        confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
   </script>
 </body>
 </html>
