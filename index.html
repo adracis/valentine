@@ -93,7 +93,103 @@
   let mouseX = 0;
   let mouseY = 0;
 
-  // Suivre la position de la souris
+  const messages = [
+  "Tu me brises le cœur 💔",
+  "Oups… ta souris s’est trompée 😅",
+  "Tu confonds Non avec Oui 😉",
+  "Essaie encore… mais non 😈",
+  "Vraiment ? 🥺",
+  "C’était presque un Oui 😏",
+  "Ton cœur dit Oui, ta souris Non ❤️",
+  "Erreur 404 : Non introuvable",
+  "Mauvais bouton 😌",
+  "Je refuse ton refus 🙃",
+  "Tu voulais cliquer Oui, avoue 😘",
+  "Non n’est pas une option ❌",
+  "Ce bouton n’existe plus 😇",
+  "Tu hésites trop 😏",
+  "Ton destin dit Oui 💘",
+  "Essaie plus fort 😜",
+  "Je me cache 😈",
+  "Encore raté 😅",
+  "Pourquoi tant de haine 💔",
+  "Ton futur te juge 💍",
+  "Oups… presque 😏",
+  "C’est gênant 😬",
+  "Tu es sûre de toi ? 👀",
+  "On va faire comme si je n’avais rien vu 🙈",
+  "Le bouton Oui te regarde 👁️",
+  "Tu joues avec mes émotions 🥺",
+  "Ce clic n’a jamais existé 🫠",
+  "Non désactivé temporairement 🔧",
+  "Le système refuse ton refus 🤖",
+  "La souris dérape encore 🐭",
+  "Tu savais pas où ta souris était 😅",
+  "Tu testes juste, hein ? 😏",
+  "Tu voulais dire Oui, je le sais 😌",
+  "Non a pris congé aujourd’hui 🌴",
+  "Essaye demain 😇",
+  "Mauvais choix… enfin presque 😘",
+  "On recommence 😈",
+  "Ce bouton est timide 🙃",
+  "Tu stresses pour rien 😘",
+  "Allez… clique Oui 💕",
+  "Je fais semblant de ne rien voir 😇",
+  "Tu n’étais pas concentrée 😌",
+  "C’est un Non très mal placé 😏",
+  "Ce bouton refuse d’obéir 😈",
+  "Non s’est enfui 🏃‍♂️",
+  "Tu triches 😜",
+  "C’était un faux Non 😅",
+  "On appelle ça le déni 🫣",
+  "Ton cœur me soutient ❤️",
+  "C’est mignon d’essayer 😘",
+  "Encore loupé 😬",
+  "Ce bouton est possédé 👻",
+  "Le Oui est plus gentil 😇",
+  "Je protège ton avenir 💘",
+  "C’est une mauvaise idée 😏",
+  "Le Non panique 😱",
+  "Pourquoi tant de suspense 😌",
+  "Tu fais durer le plaisir 😘",
+  "Ce bouton se sent menacé 😈",
+  "Ton subconscient dit Oui 🧠",
+  "Essaie ailleurs 😅",
+  "Le Oui est juste au-dessus 👆",
+  "C’est presque romantique 💕",
+  "On dirait que tu hésites 😏",
+  "Ce clic était émotionnel 🥺",
+  "Non a perdu courage 😇",
+  "Le Oui t’attend 😘",
+  "Ce bouton a peur de toi 😈",
+  "Tu testes mes limites 😏",
+  "Ton futur moi sourit 💍",
+  "C’est inutile mais mignon 😅",
+  "Encore une tentative ratée 😜",
+  "Le Non s’est auto-détruit 💥",
+  "Le Oui est plus simple 😌",
+  "Je fais mon difficile 😈",
+  "Ce bouton n’a aucune chance 😏",
+  "Tu sais déjà la réponse 💕",
+  "Arrête de jouer avec moi 😘",
+  "Le Oui gagne du terrain 💘",
+  "C’est une question piège 😇",
+  "Ce Non n’est pas valide ❌",
+  "Tu veux vraiment cliquer ça ? 👀",
+  "Je crois pas 😌",
+  "Le Oui est ton destin 😘",
+  "Dernier avertissement 😈",
+  "Tu abandonnes bientôt 😏",
+  "Ton sourire me dit Oui 😊",
+  "C’est peine perdue 😜",
+  "Ce bouton vit sa meilleure vie 🏃‍♀️",
+  "Encore un échec 😬",
+  "Tu me fais rire 😂",
+  "Le Non est en PLS 🫠",
+  "Le Oui brille juste là ✨",
+  "On sait tous comment ça finit 💍"
+];
+
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -101,8 +197,7 @@
 
   function moveButton() {
     const btnRect = noBtn.getBoundingClientRect();
-    let newX, newY;
-    let safe = false;
+    let newX, newY, safe = false;
 
     while (!safe) {
       newX = Math.random() * (window.innerWidth - btnRect.width);
@@ -113,11 +208,13 @@
         newY - mouseY
       );
 
-      // Distance minimale en pixels entre la souris et le bouton
-      if (distance > 120) {
-        safe = true;
-      }
+      if (distance > 140) safe = true;
     }
+
+    // Changer le texte du bouton
+    const randomMessage =
+      messages[Math.floor(Math.random() * messages.length)];
+    noBtn.textContent = randomMessage;
 
     noBtn.style.position = "fixed";
     noBtn.style.left = `${newX}px`;
@@ -152,5 +249,6 @@
     }
   }
 </script>
+
 </body>
 </html>
