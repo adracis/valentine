@@ -193,7 +193,6 @@
   let orderedMessages = [];
   let messageIndex = 0;
 
-  // Fisher-Yates shuffle (propre et fiable)
   function shuffle(array) {
     const arr = [...array];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -216,6 +215,8 @@
   });
 
   function moveButton() {
+    noHoverCount++;
+
     const btnRect = noBtn.getBoundingClientRect();
     let newX, newY, safe = false;
 
@@ -227,11 +228,9 @@
       if (distance > 140) safe = true;
     }
 
-    // Message suivant, sans répétition
     noBtn.textContent = orderedMessages[messageIndex];
     messageIndex++;
 
-    // Si tous les messages ont été utilisés → on régénère
     if (messageIndex >= orderedMessages.length) {
       regenerateMessages();
     }
@@ -244,6 +243,59 @@
 
   noBtn.addEventListener("mouseenter", moveButton);
   noBtn.addEventListener("touchstart", moveButton);
+
+  document.getElementById("yes").onclick = () => {
+    let message = "";
+
+    if (noHoverCount === 0) {
+      // 💖 ROMANTIQUE PUR
+      message = `
+        <h1>💖 Claudia 💖</h1>
+        <p>
+          Tu as cliqué oui sans hésiter.<br><br>
+          Et honnêtement… ça me ressemble tellement à ce que je ressens pour toi.
+          Quand je pense à nous, il n’y a jamais eu de doute, jamais eu de détour.
+          Juste une évidence.<br><br>
+          Merci d’être ce oui simple, sincère et naturel.
+          Je te choisis aujourd’hui, et tous les jours ❤️
+        </p>
+      `;
+    } else {
+      // 😏 ROMANTIQUE + HUMOUR
+      message = `
+        <h1>💘 Victoire de l’amour 💘</h1>
+        <p>
+          Après <strong>${noHoverCount}</strong> tentatives pour cliquer sur Non,<br>
+          notre amour est resté debout, invincible 😌<br><br>
+          J’ai défendu chaque pixel, chaque mouvement de souris,
+          et franchement… je recommencerais sans hésiter.<br><br>
+          Parce que même quand tu hésites,
+          même quand tu testes,
+          je sais que c’est toi que je veux.<br><br>
+          Merci d’avoir dit oui 💕
+        </p>
+      `;
+    }
+
+    document.getElementById("card").innerHTML = message;
+    launchConfetti();
+  };
+
+  function launchConfetti() {
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor =
+        ["#ff4d6d", "#ffd166", "#06d6a0", "#118ab2", "#ef476f"]
+        [Math.floor(Math.random() * 5)];
+      confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 4000);
+    }
+  }
 </script>
 </body>
 </html>
