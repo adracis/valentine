@@ -190,6 +190,26 @@
   "On sait tous comment ça finit 💍"
 ];
 
+  let orderedMessages = [];
+  let messageIndex = 0;
+
+  // Fisher-Yates shuffle (propre et fiable)
+  function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function regenerateMessages() {
+    orderedMessages = shuffle(messages);
+    messageIndex = 0;
+  }
+
+  regenerateMessages();
+
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -203,18 +223,18 @@
       newX = Math.random() * (window.innerWidth - btnRect.width);
       newY = Math.random() * (window.innerHeight - btnRect.height);
 
-      const distance = Math.hypot(
-        newX - mouseX,
-        newY - mouseY
-      );
-
+      const distance = Math.hypot(newX - mouseX, newY - mouseY);
       if (distance > 140) safe = true;
     }
 
-    // Changer le texte du bouton
-    const randomMessage =
-      messages[Math.floor(Math.random() * messages.length)];
-    noBtn.textContent = randomMessage;
+    // Message suivant, sans répétition
+    noBtn.textContent = orderedMessages[messageIndex];
+    messageIndex++;
+
+    // Si tous les messages ont été utilisés → on régénère
+    if (messageIndex >= orderedMessages.length) {
+      regenerateMessages();
+    }
 
     noBtn.style.position = "fixed";
     noBtn.style.left = `${newX}px`;
@@ -224,31 +244,6 @@
 
   noBtn.addEventListener("mouseenter", moveButton);
   noBtn.addEventListener("touchstart", moveButton);
-
-  document.getElementById("yes").onclick = () => {
-    document.getElementById("card").innerHTML = `
-      <h1>OUIIIII 💕🥰</h1>
-      <p>Je savais que tu dirais oui 😘</p>
-    `;
-    launchConfetti();
-  };
-
-  function launchConfetti() {
-    for (let i = 0; i < 150; i++) {
-      const confetti = document.createElement("div");
-      confetti.classList.add("confetti");
-
-      confetti.style.left = Math.random() * 100 + "vw";
-      confetti.style.backgroundColor =
-        ["#ff4d6d", "#ffd166", "#06d6a0", "#118ab2", "#ef476f"]
-        [Math.floor(Math.random() * 5)];
-      confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
-
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 4000);
-    }
-  }
 </script>
-
 </body>
 </html>
